@@ -207,8 +207,20 @@ Function: Manage MySQL users and reset root password.</pre>
 # Search for a process
 <b>ps aux | grep &lt;process_name&gt;</b>
 
+# Kill all processes by name
+<b>killall &lt;process_name&gt;</b>
+
+# Kill a process by PID
+<b>kill &lt;PID&gt;</b>
+
+# Force kill a process
+<b>kill -9 &lt;PID&gt;</b>
+
 # View last lines of a log file
 <b>sudo tail -n 50 /var/log/mysql/error.log</b>
+
+# Follow (live view) a log file
+<b>sudo tail -f /var/log/mysql/error.log</b>
 
 Function: System process and log inspection.</pre>
         </div>
