@@ -6,7 +6,7 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.6;
-    text-align: center;
+    /* text-align: center; */
     color: #2c3e50;
 }
 
@@ -46,12 +46,14 @@ main {
 h1 {
     color: #2c3e50;
     margin-bottom: 30px;
+    text-align: center;
 }
 
 h2 {
     color: #2c3e50;
     font-size: 1.1em;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 ul {
