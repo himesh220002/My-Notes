@@ -7,10 +7,10 @@
     <title>MySQL Bash Commands Summary</title>
     <link rel="stylesheet" href="./css/styles.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
 </head>
 
-<body class="mx-40">
+<body class="mx-40 text-gray-800 font-sans">
 
     <header class="flex justify-between items-center p-5 bg-white shadow mb-5 rounded-md">
         <div class="flex gap-3 items-center">
@@ -28,10 +28,18 @@
             <button
                 class="border hover:scale-95 duration-300 relative group cursor-pointer text-sky-50  overflow-hidden h-14 w-44 rounded-md bg-sky-200 p-2 flex justify-center items-center font-extrabold"
                 onclick="window.location.href='index.html'">
-                <div class="absolute right-32 -top-4 group-hover:top-1 group-hover:right-2 z-10 w-40 h-40 rounded-full group-hover:scale-150 duration-500 bg-sky-900"></div>
-                <div class="absolute right-2 -top-4 group-hover:top-1 group-hover:right-2 z-10 w-32 h-32 rounded-full group-hover:scale-150 duration-500 bg-sky-800"></div>
-                <div class="absolute -right-12 top-4 group-hover:top-1 group-hover:right-2 z-10 w-24 h-24 rounded-full group-hover:scale-150 duration-500 bg-sky-700"></div>
-                <div class="absolute right-20 -top-4 group-hover:top-1 group-hover:right-2 z-10 w-16 h-16 rounded-full group-hover:scale-150 duration-500 bg-sky-600"></div>
+                <div
+                    class="absolute right-32 -top-4 group-hover:top-1 group-hover:right-2 z-10 w-40 h-40 rounded-full group-hover:scale-150 duration-500 bg-sky-900">
+                </div>
+                <div
+                    class="absolute right-2 -top-4 group-hover:top-1 group-hover:right-2 z-10 w-32 h-32 rounded-full group-hover:scale-150 duration-500 bg-sky-800">
+                </div>
+                <div
+                    class="absolute -right-12 top-4 group-hover:top-1 group-hover:right-2 z-10 w-24 h-24 rounded-full group-hover:scale-150 duration-500 bg-sky-700">
+                </div>
+                <div
+                    class="absolute right-20 -top-4 group-hover:top-1 group-hover:right-2 z-10 w-16 h-16 rounded-full group-hover:scale-150 duration-500 bg-sky-600">
+                </div>
                 <p class="z-10">Go to topics</p>
             </button>
 
@@ -45,63 +53,65 @@
         </div>
     </header>
 
-    <h1 class="font-bold text-2xl py-5 bg-blue-100">MySQL Bash Commands Summary</h1>
+    <main>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Group</th>
-                <th style="width: 40%;">Command Examples</th>
-                <th>Purpose / Function</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>MySQL Service Management</td>
-                <td>
-                    <pre>sudo systemctl start mysql
+        <h1 class="font-bold text-2xl py-5 bg-blue-100">MySQL Bash Commands Summary</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Group</th>
+                    <th style="width: 40%;">Command Examples</th>
+                    <th>Purpose / Function</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>MySQL Service Management</td>
+                    <td>
+                        <pre>sudo systemctl start mysql
 sudo systemctl stop mysql
 sudo systemctl restart mysql
 sudo systemctl status mysql</pre>
-                </td>
-                <td>Start, stop, restart, or check the status of MySQL service</td>
-            </tr>
-            <tr>
-                <td>Logs & Errors</td>
-                <td>
-                    <pre>sudo journalctl -xeu mysql.service --no-pager
+                    </td>
+                    <td>Start, stop, restart, or check the status of MySQL service</td>
+                </tr>
+                <tr>
+                    <td>Logs & Errors</td>
+                    <td>
+                        <pre>sudo journalctl -xeu mysql.service --no-pager
 sudo less /var/log/mysql/error.log
 sudo tail -n 50 /var/log/mysql/error.log</pre>
-                </td>
-                <td>Debug errors and view MySQL logs</td>
-            </tr>
-            <tr>
-                <td>Processes</td>
-                <td>
-                    <pre>ps aux | grep mysqld
+                    </td>
+                    <td>Debug errors and view MySQL logs</td>
+                </tr>
+                <tr>
+                    <td>Processes</td>
+                    <td>
+                        <pre>ps aux | grep mysqld
 ps -ef | grep mysqld</pre>
-                </td>
-                <td>Check if MySQL processes are running</td>
-            </tr>
-            <tr>
-                <td>Safe Mode / Password Reset</td>
-                <td>
-                    <pre>sudo mysqld_safe --skip-grant-tables --skip-networking</pre>
-                </td>
-                <td>Start MySQL without password checking to reset root password</td>
-            </tr>
-            <tr>
-                <td>Directory & Permissions</td>
-                <td>
-                    <pre>sudo mkdir -p /var/run/mysqld
+                    </td>
+                    <td>Check if MySQL processes are running</td>
+                </tr>
+                <tr>
+                    <td>Safe Mode / Password Reset</td>
+                    <td>
+                        <pre>sudo mysqld_safe --skip-grant-tables --skip-networking</pre>
+                    </td>
+                    <td>Start MySQL without password checking to reset root password</td>
+                </tr>
+                <tr>
+                    <td>Directory & Permissions</td>
+                    <td>
+                        <pre>sudo mkdir -p /var/run/mysqld
 sudo chown mysql:mysql /var/run/mysqld</pre>
-                </td>
-                <td>Fix missing socket directory or set correct permissions</td>
-            </tr>
-            <tr>
-                <td>MySQL CLI Commands</td>
-                <td>
-                    <pre>USE mysql;
+                    </td>
+                    <td>Fix missing socket directory or set correct permissions</td>
+                </tr>
+                <tr>
+                    <td>MySQL CLI Commands</td>
+                    <td>
+                        <pre>USE mysql;
 UPDATE user
 SET authentication_string = NULL,
     plugin = 'mysql_native_password'
@@ -109,16 +119,16 @@ WHERE User='root' AND Host='localhost';
 ALTER USER 'root'@'localhost' IDENTIFIED BY 'NewPassword';
 FLUSH PRIVILEGES;
 EXIT;</pre>
-                </td>
-                <td>Manage MySQL users, reset root password, apply changes, exit CLI</td>
-            </tr>
-        </tbody>
-    </table>
+                    </td>
+                    <td>Manage MySQL users, reset root password, apply changes, exit CLI</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <div class="grid grid-cols-4 gap-5 m-5">
-        <div class="grid-item">
-            <h2>1️⃣ MySQL Service Management</h2>
-            <pre># Start MySQL service
+        <div class="grid grid-cols-4 gap-5 m-5">
+            <div class="grid-item">
+                <h2>1️⃣ MySQL Service Management</h2>
+                <pre># Start MySQL service
 <b>sudo systemctl start mysql</b>
 
 # Stop MySQL service
@@ -134,27 +144,27 @@ EXIT;</pre>
 <b>sudo journalctl -xeu mysql.service --no-pager</b>
 
 Function: Manage MySQL server state and debug startup issues.</pre>
-        </div>
-        <div class="grid-item">
-            <h2>2️⃣ Checking Processes</h2>
-            <pre># List all MySQL processes
+            </div>
+            <div class="grid-item">
+                <h2>2️⃣ Checking Processes</h2>
+                <pre># List all MySQL processes
 <b>ps aux | grep mysqld</b>
 
 # Filter specifically for MySQL daemon
 <b>ps -ef | grep mysqld</b>
 
 Function: Verify if MySQL server or safe mode is running.</pre>
-        </div>
-        <div class="grid-item">
-            <h2>3️⃣ MySQL Safe Mode (skip password)</h2>
-            <pre># Start MySQL without password checking
+            </div>
+            <div class="grid-item">
+                <h2>3️⃣ MySQL Safe Mode (skip password)</h2>
+                <pre># Start MySQL without password checking
 <b>sudo mysqld_safe --skip-grant-tables --skip-networking</b>
 
 Function: Bypass authentication to reset root password.</pre>
-        </div>
-        <div class="grid-item">
-            <h2>4️⃣ File & Directory Permissions</h2>
-            <pre># Create MySQL runtime directory
+            </div>
+            <div class="grid-item">
+                <h2>4️⃣ File & Directory Permissions</h2>
+                <pre># Create MySQL runtime directory
 <b>sudo mkdir -p /var/run/mysqld</b>
 
 # Set ownership
@@ -164,10 +174,10 @@ Function: Bypass authentication to reset root password.</pre>
 <b>sudo less /var/log/mysql/error.log</b>
 
 Function: Fix socket or log file issues that prevent MySQL from starting.</pre>
-        </div>
-        <div class="grid-item">
-            <h2>5️⃣ MySQL CLI Commands</h2>
-            <pre>-- Switch to mysql database
+            </div>
+            <div class="grid-item">
+                <h2>5️⃣ MySQL CLI Commands</h2>
+                <pre>-- Switch to mysql database
 <b>USE mysql;</b>
 
 -- Reset root password
@@ -186,10 +196,10 @@ WHERE User='root' AND Host='localhost';</b>
 <b>EXIT;</b>
 
 Function: Manage MySQL users and reset root password.</pre>
-        </div>
-        <div class="grid-item">
-            <h2>6️⃣ General Utilities</h2>
-            <pre># Check running processes
+            </div>
+            <div class="grid-item">
+                <h2>6️⃣ General Utilities</h2>
+                <pre># Check running processes
 <b>ps aux</b>
 
 # Search for a process
@@ -211,10 +221,10 @@ Function: Manage MySQL users and reset root password.</pre>
 <b>sudo tail -f /var/log/mysql/error.log</b>
 
 Function: System process and log inspection.</pre>
-        </div>
-        <div class="grid-item">
-            <h2>&#x0037;&#xFE0F;&#x20E3; Emoji number</h2>
-            <pre># Notes:
+            </div>
+            <div class="grid-item">
+                <h2>&#x0037;&#xFE0F;&#x20E3; Emoji number</h2>
+                <pre># Notes:
 <b>
 0037 → 7
 FE0F → emoji variation selector
@@ -226,6 +236,7 @@ You can replace 7️⃣ with 8️⃣ similarly (0038 FE0F 20E3).</b>
         </div>
     </div>
 
+</main>
 
     <footer class="p-5 bg-white shadow rounded">
         <div class="flex justify-center gap-5">

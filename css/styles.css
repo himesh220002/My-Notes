@@ -2,7 +2,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f6f8;
+    background-color: #3e4347;
     margin: 0;
     padding: 0;
     line-height: 1.6;
@@ -35,7 +35,6 @@ header a.nav-button:hover {
 } */
 
 main {
-    max-width: 1200px;
     margin: 30px auto;
     background-color: white;
     padding: 30px;
