@@ -10,7 +10,7 @@ body {
     color: #2c3e50;
 }
 
-header {
+/* header {
     background-color: #2980b9;
     color: white;
     padding: 15px 20px;
@@ -32,7 +32,7 @@ header a.nav-button {
 
 header a.nav-button:hover {
     background-color: #2ecc71;
-}
+} */
 
 main {
     max-width: 1200px;
@@ -124,14 +124,14 @@ tr:nth-child(even) {
 
 /* ------------------footer */
 
-footer {
-    max-width: 900px;
+/* footer {
+    max-width: 1200px;
     margin: 20px auto 50px auto;
     display: flex;
     justify-content: flex-end;
-}
+} */
 
-footer a.nav-button {
+/* footer a.nav-button {
     background-color: #2980b9;
     color: white;
     padding: 10px 20px;
@@ -142,4 +142,4 @@ footer a.nav-button {
 
 footer a.nav-button:hover {
     background-color: #3498db;
-}
+} */
