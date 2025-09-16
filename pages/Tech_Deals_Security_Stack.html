@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" type="image/png" href="public/NotesIconlogo.png"/>
+  <title>Tech Deals Security Stack - Page 4</title>
+  <link rel="stylesheet" href="./../css/styles.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="mx-40 text-gray-800 font-sans">
+  <!-- Header (unchanged) -->
+  <header class="flex justify-between items-center p-5 bg-white shadow mb-5 rounded-md">
+    <div class="flex gap-3 items-center">
+      <button class="cursor-pointer transition-all bg-blue-500 text-white px-6 py-2 rounded-lg
+                    border-blue-600
+                    border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
+                    active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+              onclick="window.location.href='./gitsummary.html'">
+        Prev
+      </button>
+      <div class="rounded-br-md p-2 bg-gray-700 text-white">Page No. 4</div>
+    </div>
+
+    <div class="flex gap-3 items-center">
+      <button
+        class="border hover:scale-95 duration-300 relative group cursor-pointer text-sky-50  overflow-hidden h-14 w-44 rounded-md bg-sky-200 p-2 flex justify-center items-center font-extrabold"
+        onclick="window.location.href='../index.html'">
+        <div class="absolute right-32 -top-4 group-hover:top-1 group-hover:right-2 z-10 w-40 h-40 rounded-full group-hover:scale-150 duration-500 bg-sky-900"></div>
+        <div class="absolute right-2 -top-4 group-hover:top-1 group-hover:right-2 z-10 w-32 h-32 rounded-full group-hover:scale-150 duration-500 bg-sky-800"></div>
+        <div class="absolute -right-12 top-4 group-hover:top-1 group-hover:right-2 z-10 w-24 h-24 rounded-full group-hover:scale-150 duration-500 bg-sky-700"></div>
+        <div class="absolute right-20 -top-4 group-hover:top-1 group-hover:right-2 z-10 w-16 h-16 rounded-full group-hover:scale-150 duration-500 bg-sky-600"></div>
+        <p class="z-10">Go to topics</p>
+      </button>
+
+      <button class="cursor-pointer transition-all bg-blue-500 text-white px-6 py-2 rounded-lg
+                    border-blue-600
+                    border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
+                    active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+              onclick="window.location.href='./Payment_integration.html'">
+        Next
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Title -->
+    <h1 class="text-3xl font-bold text-center mb-10 text-gray-900">Tech Deals Security Stack — Quick Guides</h1>
+
+    <!-- JWT Authentication -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold mb-4 text-gray-900">JWT Authentication</h2>
+      <p class="mb-4 text-gray-700">
+        Stateless authentication for secure, scalable sessions using signed JSON Web Tokens.
+      </p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-xl font-semibold mb-3 text-blue-700">Installation</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-blue-600 text-sm overflow-x-auto">
+# Backend
+npm install jsonwebtoken
+
+# Optional dev helpers
+npm install dotenv bcrypt
+          </pre>
+
+          <h3 class="text-xl font-semibold mt-6 mb-3 text-blue-700">Backend implementation</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-blue-600 text-sm overflow-x-auto">
+<b>// auth.controller.js</b>
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import { getUserByEmail } from "./db.js"; // your DB accessor
+
+export function signToken(payload, expiresIn = "1h") {
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn });
+}
+
+export async function login(req, res) {
+  const { email, password } = req.body;
+  const user = await getUserByEmail(email);
+  if (!user) return res.status(401).json({ error: "Invalid credentials" });
+
+  const ok = await bcrypt.compare(password, user.password_hash);
+  if (!ok) return res.status(401).json({ error: "Invalid credentials" });
+
+  const token = signToken({ id: user.id, role: user.role });
+  return res.json({ token });
+}
+
+<b>// auth.middleware.js</b>
+export function verifyToken(req, res, next) {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return res.status(401).json({ error: "No token" });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // { id, role, iat, exp }
+    return next();
+  } catch (e) {
+    return res.status(403).json({ error: "Invalid/expired token" });
+  }
+}
+
+<b>// usage in routes</b>
+app.get("/api/me", verifyToken, (req, res) => {
+  res.json({ userId: req.user.id, role: req.user.role });
+});
+          </pre>
+        </div>
+
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-xl font-semibold mb-3 text-blue-700">Frontend integration</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-blue-600 text-sm overflow-x-auto">
+<b>// After login</b>
+const { token } = await api.post("/login", { email, password });
+localStorage.setItem("token", token);
+
+<b>// Helper</b>
+function authFetch(url, options = {}) {
+  const token = localStorage.getItem("token");
+  return fetch(url, {
+    ...options,
+    headers: {
+      ...(options.headers || {}),
+      Authorization: token ? `Bearer ${token}` : "",
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+<b>// Example usage</b>
+const res = await authFetch("/api/me");
+const data = await res.json();
+          </pre>
+
+          <h3 class="text-xl font-semibold mt-6 mb-3 text-blue-700">Flow diagram</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-blue-600 text-sm overflow-x-auto">
+[Login Form] -> POST /login -> verify creds
+ -> jwt.sign(payload, secret, exp) -> { token }
+ -> Client stores token (localStorage or cookie)
+ -> Requests include Authorization: Bearer <token>
+ -> Middleware jwt.verify() -> Access or 401/403
+          </pre>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-lg font-semibold mb-2">Security level</h3>
+          <ul class="list-disc list-inside text-sm text-gray-700">
+            <li><b>Stateless:</b> no server session needed.</li>
+            <li><b>Integrity:</b> signed tokens prevent tampering.</li>
+            <li><b>Expiry:</b> short TTL reduces abuse window.</li>
+            <li><b>Transport:</b> always use HTTPS.</li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-lg font-semibold mb-2">Workflow model</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-blue-600 text-sm overflow-x-auto">
+User -> Login -> Get token -> Store
+ -> Send on each request -> Verify -> Access
+          </pre>
+        </div>
+
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-lg font-semibold mb-2">Improvements</h3>
+          <ul class="list-disc list-inside text-sm text-gray-700">
+            <li>Use <b>HTTP-only cookies</b> to mitigate XSS.</li>
+            <li>Add <b>refresh tokens</b> with rotation.</li>
+            <li>Implement <b>revocation</b> (Redis blacklist).</li>
+            <li>Scope <b>roles/permissions</b> in claims.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-lg font-semibold mb-2">Result</h3>
+          <p class="text-sm text-gray-700">
+            Simple, scalable authentication across instances. Clear separation of concerns between frontend and backend.
+          </p>
+        </div>
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-lg font-semibold mb-2">FAQ</h3>
+          <ul class="list-disc list-inside text-sm text-gray-700">
+            <li><b>Where to store tokens?</b> HTTP-only cookies > localStorage.</li>
+            <li><b>Logout?</b> Clear client storage, optionally add token to Redis blacklist until expiry.</li>
+            <li><b>Clock skew?</b> Keep short TTLs; handle small skews gracefully.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Redis (Ubuntu + Cloud) -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold mb-4 text-gray-900">Redis (Local and Global)</h2>
+      <p class="mb-4 text-gray-700">
+        Use Redis for blacklisting tokens, rate limiting, caching verification codes, and ephemeral session state.
+      </p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-xl font-semibold mb-3 text-purple-700">Installation (Ubuntu)</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-purple-600 text-sm overflow-x-auto">
+sudo apt update
+sudo apt install -y redis-server
+# Enable supervised systemd if needed:
+sudo sed -i 's/^supervised no/supervised systemd/' /etc/redis/redis.conf
+sudo systemctl enable redis-server
+sudo systemctl restart redis-server
+redis-cli ping
+          </pre>
+
+          <h3 class="text-xl font-semibold mt-6 mb-3 text-purple-700">Cloud (Redis Cloud)</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-purple-600 text-sm overflow-x-auto">
+# .env
+REDIS_URL=redis://default:password@host:port
+          </pre>
+
+          <h3 class="text-xl font-semibold mt-6 mb-3 text-purple-700">Node connection</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-purple-600 text-sm overflow-x-auto">
+<b>// redis.js</b>
+import { createClient } from "redis";
+const client = createClient({ url: process.env.REDIS_URL || "redis://localhost:6379" });
+client.on("error", (err) => console.error("Redis error", err));
+await client.connect();
+export default client;
+          </pre>
+        </div>
+
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-xl font-semibold mb-3 text-purple-700">Use cases</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-purple-600 text-sm overflow-x-auto">
+<b>// Token blacklist on logout</b>
+await client.setEx(`bl:${jti}`, 3600, "1"); // jti from JWT or token hash
+
+<b>// Email verification code</b>
+await client.setEx(`verify:${email}`, 600, code);
+
+<b>// Rate limiting (simple)</b>
+const key = `rl:${ip}`;
+const hits = await client.incr(key);
+if (hits === 1) await client.expire(key, 60);
+if (hits > 100) return res.status(429).json({ error: "Too many requests" });
+          </pre>
+
+          <h3 class="text-xl font-semibold mt-6 mb-3 text-purple-700">Flow diagram</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-purple-600 text-sm overflow-x-auto">
+[Logout] -> add token to Redis blacklist
+[Request] -> jwt.verify -> check blacklist -> allow/deny
+
+[Signup] -> generate code -> store in Redis -> email
+[Verify link/code] -> check Redis -> activate account
+          </pre>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-lg font-semibold mb-2">Security level</h3>
+          <ul class="list-disc list-inside text-sm text-gray-700">
+            <li><b>Fast TTL-based revocation.</b></li>
+            <li><b>Centralized limits</b> across instances.</li>
+            <li>Protect Redis with <b>auth + TLS + VPC</b> in cloud.</li>
+          </ul>
+        </div>
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-lg font-semibold mb-2">Improvements</h3>
+          <ul class="list-disc list-inside text-sm text-gray-700">
+            <li>Store <b>hashed tokens</b> for blacklist privacy.</li>
+            <li>Use <b>Lua scripts</b> for atomic rate limits.</li>
+            <li>Metrics: expose <b>hit/miss</b> for monitoring.</li>
+          </ul>
+        </div>
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-lg font-semibold mb-2">Result & FAQ</h3>
+          <ul class="list-disc list-inside text-sm text-gray-700">
+            <li><b>Result:</b> predictable performance, simple ops.</li>
+            <li><b>FAQ:</b> If Redis is down, fail closed for auth, degrade gracefully for cache.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Email Verification (Nodemailer) -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold mb-4 text-gray-900">Email Verification (Nodemailer)</h2>
+      <p class="mb-4 text-gray-700">
+        Verifies user ownership of email via signed link or short-lived code.
+      </p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-xl font-semibold mb-3 text-green-700">Installation & SMTP</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-green-600 text-sm overflow-x-auto">
+npm install nodemailer
+# .env
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_user
+SMTP_PASS=your_pass
+APP_URL=https://your-app.com
+          </pre>
+
+          <h3 class="text-xl font-semibold mt-6 mb-3 text-green-700">Backend implementation</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-green-600 text-sm overflow-x-auto">
+<b>// mailer.js</b>
+import nodemailer from "nodemailer";
+export const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: +process.env.SMTP_PORT,
+  secure: false,
+  auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+});
+
+<b>// email.controller.js</b>
+import crypto from "crypto";
+import client from "./redis.js";
+import { transporter } from "./mailer.js";
+
+export async function sendVerificationEmail(email) {
+  const code = crypto.randomInt(100000, 999999).toString();
+  await client.setEx(`verify:${email}`, 600, code); // 10 min
+
+  const html = `
+    <p>Use this code to verify your account:</p>
+    <h2>${code}</h2>
+  `;
+  await transporter.sendMail({
+    to: email,
+    subject: "Verify your Tech Deals account",
+    html,
+  });
+}
+
+export async function verifyCode(req, res) {
+  const { email, code } = req.body;
+  const stored = await client.get(`verify:${email}`);
+  if (stored !== code) return res.status(400).json({ error: "Invalid code" });
+  // mark user verified in DB...
+  await client.del(`verify:${email}`);
+  return res.json({ ok: true });
+}
+          </pre>
+        </div>
+
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-xl font-semibold mb-3 text-green-700">Frontend integration</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-green-600 text-sm overflow-x-auto">
+<b>// request verification</b>
+await fetch("/api/send-verify", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email }),
+});
+
+<b>// submit code</b>
+await fetch("/api/verify-code", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email, code }),
+});
+          </pre>
+
+          <h3 class="text-xl font-semibold mt-6 mb-3 text-green-700">Flow & security</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-green-600 text-sm overflow-x-auto">
+[Signup] -> send code via SMTP -> store code in Redis (TTL)
+[User enters code] -> compare -> activate -> delete key
+
+Security:
+- Codes short-lived and single-use
+- Throttle requests per email/IP
+- Avoid leaking user existence in responses
+          </pre>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-lg font-semibold mb-2">Improvements</h3>
+          <ul class="list-disc list-inside text-sm text-gray-700">
+            <li>Signed verification link with JWT (exp 15m) instead of code.</li>
+            <li>Per-IP & per-email rate limits.</li>
+            <li>Template system + sender domain (SPF/DKIM/DMARC).</li>
+          </ul>
+        </div>
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-lg font-semibold mb-2">Result & FAQ</h3>
+          <ul class="list-disc list-inside text-sm text-gray-700">
+            <li><b>Result:</b> clean, user-friendly verification flow.</li>
+            <li><b>FAQ:</b> If email delivery fails, offer resend with backoff; show neutral messages to avoid user enumeration.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Database (Local Postgres + Neon) -->
+    <section class="mb-16">
+      <h2 class="text-2xl font-bold mb-4 text-gray-900">Database (PostgreSQL Local & Neon)</h2>
+      <p class="mb-4 text-gray-700">
+        Local PostgreSQL for development, Neon for global, serverless Postgres access in production.
+      </p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-xl font-semibold mb-3 text-red-700">Local setup (Ubuntu)</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-red-600 text-sm overflow-x-auto">
+sudo apt update
+sudo apt install -y postgresql postgresql-contrib
+sudo -u postgres psql
+CREATE DATABASE techdeals;
+CREATE USER techuser WITH ENCRYPTED PASSWORD 'yourpass';
+GRANT ALL PRIVILEGES ON DATABASE techdeals TO techuser;
+\q
+
+# .env
+DATABASE_URL=postgres://techuser:yourpass@localhost:5432/techdeals
+          </pre>
+
+          <h3 class="text-xl font-semibold mt-6 mb-3 text-red-700">Global setup (Neon)</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-red-600 text-sm overflow-x-auto">
+# In Neon dashboard, copy your connection string:
+DATABASE_URL=postgres://user:password@host.neon.tech/db?sslmode=require
+          </pre>
+
+          <h3 class="text-xl font-semibold mt-6 mb-3 text-red-700">Node connection (Drizzle or pg)</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-red-600 text-sm overflow-x-auto">
+<b>// with node-postgres</b>
+import pkg from "pg";
+const { Pool } = pkg;
+export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
+<b>// example query</b>
+const { rows } = await pool.query("SELECT 1");
+
+<b>// with Drizzle (example)</b>
+import { drizzle } from "drizzle-orm/node-postgres";
+export const db = drizzle(pool);
+          </pre>
+        </div>
+
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-xl font-semibold mb-3 text-red-700">Schema & queries</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-red-600 text-sm overflow-x-auto">
+-- users table
+CREATE TABLE IF NOT EXISTS users (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email TEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  role TEXT DEFAULT 'user',
+  verified BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- sample insert / select (pg)
+await pool.query(
+  "INSERT INTO users (email, password_hash) VALUES ($1, $2)",
+  [email, hash]
+);
+const { rows } = await pool.query(
+  "SELECT id, email, role, verified FROM users WHERE email=$1",
+  [email]
+);
+          </pre>
+
+          <h3 class="text-xl font-semibold mt-6 mb-3 text-red-700">Flow & security</h3>
+          <pre class="bg-gray-100 p-3 border-l-4 border-red-600 text-sm overflow-x-auto">
+Local dev -> migrate schema -> seed
+Prod (Neon) -> SSL required -> parameterized queries only
+Secrets via env -> least-privileged users -> backups enabled
+          </pre>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-lg font-semibold mb-2">Security level</h3>
+          <ul class="list-disc list-inside text-sm text-gray-700">
+            <li>Parameterize every query.</li>
+            <li>Use SSL in production.</li>
+            <li>Rotate DB passwords, separate roles (read/write/admin).</li>
+          </ul>
+        </div>
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-lg font-semibold mb-2">Improvements</h3>
+          <ul class="list-disc list-inside text-sm text-gray-700">
+            <li>Migrations via Drizzle or Prisma.</li>
+            <li>Connection pooling (pgBouncer/Neon built-in).</li>
+            <li>Row-level security if multi-tenant.</li>
+          </ul>
+        </div>
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-lg font-semibold mb-2">Result & FAQ</h3>
+          <ul class="list-disc list-inside text-sm text-gray-700">
+            <li><b>Result:</b> reliable local dev + global prod DB.</li>
+            <li><b>FAQ:</b> If Neon rejects WebSocket, use HTTP pooling or adjust client config.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- End-to-end workflow modal (textual) -->
+    <section class="mb-20">
+      <h2 class="text-2xl font-bold mb-4 text-gray-900">End-to-end Workflow</h2>
+      <pre class="bg-gray-100 p-4 border-l-4 border-gray-800 text-sm overflow-x-auto rounded">
+User Signup -> Email verify code (Redis TTL) -> User verified in Postgres
+Login -> JWT issued -> Client stores token
+Protected requests -> JWT verify + optional Redis blacklist check
+Logout -> Add token jti/hash to Redis blacklist until expiration
+      </pre>
+    </section>
+  </main>
+
+  <!-- Footer (unchanged) -->
+  <footer class="p-5 bg-white shadow rounded">
+    <div class="flex justify-center gap-5">
+      <button class="cursor-pointer transition-all bg-blue-500 text-white px-6 py-2 rounded-lg
+                    border-blue-600
+                    border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
+                    active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+              onclick="window.location.href='./gitsummary.html'">
+        Prev
+      </button>
+      <button class="cursor-pointer transition-all bg-blue-500 text-white px-6 py-2 rounded-lg
+                    border-blue-600
+                    border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
+                    active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+              onclick="window.location.href='./Payment_integration.html'">
+        Next
+      </button>
+    </div>
+  </footer>
+</body>
+</html>

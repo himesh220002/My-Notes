@@ -29,7 +29,7 @@
                     border-blue-600
                     border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
                     active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
-                onclick="window.location.href='bash_commands_lists.html'">
+                onclick="window.location.href='pages/bash_commands_lists.html'">
                 Next
             </button>
         </div>
@@ -44,7 +44,7 @@
                     <b>MySQL Bash Commands Summary</b>
                     <button
                         class="overflow-hidden relative w-32 p-2 h-12 bg-black text-white border-none rounded-md text-xl font-bold cursor-pointer relative z-10 group"
-                        onclick="window.location.href='bash_commands_lists.html'">
+                        onclick="window.location.href='pages/bash_commands_lists.html'">
                         Open
                         <span
                             class="absolute w-36 h-32 -top-8 -left-2 bg-sky-200 rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-500 duration-1000 origin-right"></span>
@@ -76,7 +76,7 @@
 
                     <button
                         class="overflow-hidden relative w-32 p-2 h-12 bg-black text-white border-none rounded-md text-xl font-bold cursor-pointer relative z-10 group"
-                        onclick="window.location.href='gitsummary.html'">
+                        onclick="window.location.href='pages/gitsummary.html'">
                         Open
                         <span
                             class="absolute w-36 h-32 -top-8 -left-2 bg-sky-200 rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-500 duration-1000 origin-right"></span>
@@ -99,15 +99,16 @@
                     
                 </ol>
             </li>
+
             <!-- ---------------------------- -->
             <li class="flex flex-col gap-3 items-start p-5 rounded-md shadow-md mb-10 bg-green-50">
                 <div
                     class="flex items-center justify-between gap-5 bg-gray-700 text-gray-100 px-3 py-1 w-full rounded-md">
-                    <b>nexttopic Summary</b>
+                    <b>Security Stack</b>
 
                     <button
                         class="overflow-hidden relative w-32 p-2 h-12 bg-black text-white border-none rounded-md text-xl font-bold cursor-pointer relative z-10 group"
-                        onclick="window.location.href='gitsummary.html'">
+                        onclick="window.location.href='pages/Tech_Deals_Security_Stack.html'">
                         Open
                         <span
                             class="absolute w-36 h-32 -top-8 -left-2 bg-sky-200 rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-500 duration-1000 origin-right"></span>
@@ -122,15 +123,46 @@
                 </div>
 
                 <ol class="bg-gray-100 p-5 rounded-md shadow space-y-2 list-decimal list-inside text-gray-700 w-full">
-                    <li class="p-2 rounded-md hover:bg-gray-200 transition">MySQL Service Management</li>
-                    <li class="p-2 rounded-md hover:bg-gray-200 transition">Logs & Errors</li>
-                    <li class="p-2 rounded-md hover:bg-gray-200 transition">Processes</li>
-                    <li class="p-2 rounded-md hover:bg-gray-200 transition">Safe Mode / Password Reset</li>
-                    <li class="p-2 rounded-md hover:bg-gray-200 transition">Directory & Permissions</li>
-                    <li class="p-2 rounded-md hover:bg-gray-200 transition">MySQL CLI Commands</li>
-                    <li class="p-2 rounded-md hover:bg-gray-200 transition">General Utilities</li>
+                    <li class="p-2 rounded-md hover:bg-gray-200 transition">JWT Authentication</li>
+                    <li class="p-2 rounded-md hover:bg-gray-200 transition">Redis (Local & Global)</li>
+                    <li class="p-2 rounded-md hover:bg-gray-200 transition">Email Verification (Nodemailer)</li>
+                    <li class="p-2 rounded-md hover:bg-gray-200 transition">Database (PostgreSQL Local & Neon)</li>
+                    <li class="p-2 rounded-md hover:bg-gray-200 transition">End-to-End Workflow</li>
                 </ol>
             </li>
+
+            <!-- ---------------------------- -->
+            <li class="flex flex-col gap-3 items-start p-5 rounded-md shadow-md mb-10 bg-green-50">
+                <div
+                    class="flex items-center justify-between gap-5 bg-gray-700 text-gray-100 px-3 py-1 w-full rounded-md">
+                    <b>Implement payment integration</b>
+
+                    <button
+                        class="overflow-hidden relative w-32 p-2 h-12 bg-black text-white border-none rounded-md text-xl font-bold cursor-pointer relative z-10 group"
+                        onclick="window.location.href='pages/Payment_integration.html'">
+                        Open
+                        <span
+                            class="absolute w-36 h-32 -top-8 -left-2 bg-sky-200 rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-500 duration-1000 origin-right"></span>
+                        <span
+                            class="absolute w-36 h-32 -top-8 -left-2 bg-sky-400 rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-700 duration-700 origin-right"></span>
+                        <span
+                            class="absolute w-36 h-32 -top-8 -left-2 bg-sky-600 rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-1000 duration-500 origin-right"></span>
+                        <span
+                            class="group-hover:opacity-100 group-hover:duration-1000 duration-100 opacity-0 absolute top-2.5 left-6 z-10">Explore!</span>
+                    </button>
+
+                </div>
+
+                <ol class="bg-gray-100 p-5 rounded-md shadow space-y-2 list-decimal list-inside text-gray-700 w-full">
+                    <li class="p-2 rounded-md hover:bg-gray-200 transition">Setup and installation (Ubuntu + Node)</li>
+                    <li class="p-2 rounded-md hover:bg-gray-200 transition">UPI (scan and pay) — Razorpay approach</li>
+                    <li class="p-2 rounded-md hover:bg-gray-200 transition">Card payments — Stripe</li>
+                    <li class="p-2 rounded-md hover:bg-gray-200 transition">PayPal</li>
+                    <li class="p-2 rounded-md hover:bg-gray-200 transition">Security considerations and workflow model</li>
+                    <li class="p-2 rounded-md hover:bg-gray-200 transition">Planning checklist (apply to any project)</li>
+                </ol>
+            </li>
+            
             <!-- ---------------------------- -->
         </ol>
 
@@ -150,7 +182,7 @@
                     border-blue-600
                     border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
                     active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
-            onclick="window.location.href='bash_commands_lists.html'">
+            onclick="window.location.href='pages/bash_commands_lists.html'">
             Next
         </button>
     </div>
